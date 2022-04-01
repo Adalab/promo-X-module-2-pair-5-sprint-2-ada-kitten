@@ -9,27 +9,26 @@ const buttonCancelForm = document.querySelector('.js-btn-cancel');
 const inputDesc = document.querySelector('.js-input-desc');
 const inputPhoto = document.querySelector('.js-input-photo');
 const inputName = document.querySelector('.js-input-name');
+const inputRace = document.querySelector('.js-input-race');
 const linkNewFormElememt = document.querySelector('.js-button-new-form');
 const labelMesageError = document.querySelector('.js-label-error');
 const input_search_desc = document.querySelector('.js_in_search_desc');
 
 //Objetos con cada gatito
 const kittenData_1 = {
-  image: 'https://ychef.files.bbci.co.uk/976x549/p07ryyyj.jpg',
+  url: 'https://ychef.files.bbci.co.uk/976x549/p07ryyyj.jpg',
   name: 'Anastacio',
   desc: 'Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!',
   race: 'British Shorthair',
 };
 const kittenData_2 = {
-  image:
-    'https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/newscms/2019_39/3021711/190923-cat-pet-stock-cs-1052a.jpg',
+  url: 'https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/newscms/2019_39/3021711/190923-cat-pet-stock-cs-1052a.jpg',
   name: 'Fiona',
   desc: 'Juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!',
   race: 'British Shorthair',
 };
 const kittenData_3 = {
-  image:
-    'https://images.emedicinehealth.com/images/article/main_image/cat-scratch-disease.jpg',
+  url: 'https://images.emedicinehealth.com/images/article/main_image/cat-scratch-disease.jpg',
   name: 'Cielo',
   desc: 'Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!',
   race: 'British Shorthair',
@@ -43,7 +42,7 @@ function renderKitten(kittenData) {
     <article>
       <img
         class="card_img"
-        src=${kittenData.image}
+        src=${kittenData.url}
         alt="gatito"
       />
       <h3 class="card_title">${kittenData.name}</h3>
@@ -85,13 +84,31 @@ function addNewKitten(event) {
   const valueDesc = inputDesc.value;
   const valuePhoto = inputPhoto.value;
   const valueName = inputName.value;
+  const valueRace = inputRace.value;
+  const newKittenDataObject = {};
+
+  newKittenDataObject.url = valuePhoto;
+  newKittenDataObject.name = valueName;
+  newKittenDataObject.desc = valueDesc;
+  newKittenDataObject.race = valueRace;
+
   if (valueDesc === '' && valuePhoto === '' && valueName === '') {
     labelMesageError.innerHTML = 'Debe rellenar todos los valores';
   } else {
     if (valueDesc !== '' && valuePhoto !== '' && valueName !== '') {
-      labelMesageError.innerHTML = '';
+      labelMesageError.innerHTML = 'Mola! Un nuevo gatito en Adalab!';
     }
   }
+  kittenDataList.push(newKittenDataObject);
+  console.log(kittenDataList);
+  resetInputs();
+}
+//Limpiar los inputs
+function resetInputs() {
+  inputDesc.value = '';
+  inputPhoto.value = '';
+  inputName.value = '';
+  inputRace.value = '';
 }
 //Cancelar la búsqueda de un gatito
 function cancelNewKitten(event) {
