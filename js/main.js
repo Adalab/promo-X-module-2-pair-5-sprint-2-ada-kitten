@@ -99,7 +99,9 @@ function addNewKitten(event) {
       labelMesageError.innerHTML = 'Mola! Un nuevo gatito en Adalab!';
     }
   }
+
   kittenDataList.push(newKittenDataObject);
+  renderKittenList(kittenDataList);
   console.log(kittenDataList);
   resetInputs();
 }
@@ -123,12 +125,10 @@ function cancelNewKitten(event) {
 function filterKitten(event) {
   event.preventDefault();
   const descrSearchText = input_search_desc.value;
-  listElement.innerHTML = '';
-  for (const kittenItem of kittenDataList) {
-    if (kittenItem.desc.includes(descrSearchText)) {
-      listElement.innerHTML += renderKitten(kittenItem);
-    }
-  }
+  const dataFiltered = kittenDataList.filter((kitten) =>
+    kitten.desc.toLowerCase().includes(descrSearchText.toLowerCase())
+  );
+  renderKittenList(dataFiltered);
 }
 
 //Mostrar el litado de gatitos en ell HTML

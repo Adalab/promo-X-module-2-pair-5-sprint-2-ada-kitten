@@ -31,7 +31,6 @@ const kittenData_3 = {
   desc: 'Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!',
   race: 'British Shorthair',
 };
-
 const kittenDataList = [kittenData_1, kittenData_2, kittenData_3];
 
 //Adicionar nuevo gatito
@@ -42,10 +41,9 @@ function addNewKitten(event) {
   const valueName = inputName.value;
   const valueRace = inputRace.value;
   const newKittenDataObject = {};
-  const kittenDataList = [];
 
+  newKittenDataObject.url = valuePhoto;
   newKittenDataObject.name = valueName;
-  newKittenDataObject.photo = valuePhoto;
   newKittenDataObject.desc = valueDesc;
   newKittenDataObject.race = valueRace;
 
@@ -57,6 +55,7 @@ function addNewKitten(event) {
     }
   }
   kittenDataList.push(newKittenDataObject);
+  renderKittenList(kittenDataList);
   console.log(kittenDataList);
   resetInputs();
 }
@@ -114,5 +113,9 @@ function handleClickNewCatForm(event) {
   }
 }
 
+//Mostrar el litado de gatitos en ell HTML
+renderKittenList(kittenDataList);
+
 buttonAdd.addEventListener('click', addNewKitten);
 linkNewFormElememt.addEventListener('click', handleClickNewCatForm);
+searchButton.addEventListener('click', filterKitten);

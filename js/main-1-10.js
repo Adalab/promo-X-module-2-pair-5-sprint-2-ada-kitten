@@ -55,6 +55,7 @@ function addNewKitten(event) {
     }
   }
   kittenDataList.push(newKittenDataObject);
+  renderKittenList(kittenDataList);
   console.log(kittenDataList);
   resetInputs();
 }
@@ -63,14 +64,10 @@ function addNewKitten(event) {
 function filterKitten(event) {
   event.preventDefault();
   const descrSearchText = input_search_desc.value;
-  listElement.innerHTML = '';
-  names.filter((name) => name.length > 5);
-
-  for (const kittenItem of kittenDataList) {
-    if (kittenItem.desc.includes(descrSearchText)) {
-      listElement.innerHTML += renderKitten(kittenItem);
-    }
-  }
+  const dataFiltered = kittenDataList.filter((kitten) =>
+    kitten.desc.toLowerCase().includes(descrSearchText.toLowerCase())
+  );
+  renderKittenList(dataFiltered);
 }
 
 //Crear listado de gatitos
@@ -125,6 +122,9 @@ function handleClickNewCatForm(event) {
     hideNewCatForm();
   }
 }
+
+//Mostrar el litado de gatitos en ell HTML
+renderKittenList(kittenDataList);
 
 buttonAdd.addEventListener('click', addNewKitten);
 linkNewFormElememt.addEventListener('click', handleClickNewCatForm);
