@@ -1,4 +1,6 @@
 'use strict';
+
+/* Elementos que usamos en el HTML */
 const newFormElement = document.querySelector('.js-new-form');
 const listElement = document.querySelector('.js-list');
 const searchButton = document.querySelector('.js-button-search');
@@ -12,7 +14,7 @@ const linkNewFormElememt = document.querySelector('.js-button-new-form');
 const labelMesageError = document.querySelector('.js-label-error');
 const input_search_desc = document.querySelector('.js_in_search_desc');
 
-//Convertir cada gatito en un objeto
+//Objetos con cada gatito
 const kittenData_1 = {
   url: 'https://ychef.files.bbci.co.uk/976x549/p07ryyyj.jpg',
   name: 'Anastacio',
@@ -22,7 +24,7 @@ const kittenData_1 = {
 const kittenData_2 = {
   url: 'https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/newscms/2019_39/3021711/190923-cat-pet-stock-cs-1052a.jpg',
   name: 'Fiona',
-  desc: 'Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!',
+  desc: 'Juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!',
   race: 'British Shorthair',
 };
 const kittenData_3 = {
@@ -31,8 +33,51 @@ const kittenData_3 = {
   desc: 'Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!',
   race: 'British Shorthair',
 };
+
 const kittenDataList = [kittenData_1, kittenData_2, kittenData_3];
 
+//Funciones
+function renderKitten(kittenData) {
+  const kitten = `<li class="card">
+    <article>
+      <img
+        class="card_img"
+        src=${kittenData.url}
+        alt="gatito"
+      />
+      <h3 class="card_title">${kittenData.name}</h3>
+      <h3 class="card_race">${kittenData.race}</h3>
+      <p class="card_description">
+      ${kittenData.desc}
+      </p>
+    </article>
+    </li>`;
+  return kitten;
+}
+
+function renderKittenList(kittenDataList) {
+  listElement.innerHTML = '';
+  for (const kittenItem of kittenDataList) {
+    listElement.innerHTML += renderKitten(kittenItem);
+  }
+}
+
+//Mostrar/ocultar el formulario
+function showNewCatForm() {
+  newFormElement.classList.remove('collapsed');
+}
+function hideNewCatForm() {
+  newFormElement.classList.add('collapsed');
+}
+
+function handleClickNewCatForm(event) {
+  event.preventDefault();
+  if (newFormElement.classList.contains('collapsed')) {
+    showNewCatForm();
+  } else {
+    hideNewCatForm();
+  }
+}
 //Adicionar nuevo gatito
 function addNewKitten(event) {
   event.preventDefault();
@@ -54,10 +99,26 @@ function addNewKitten(event) {
       labelMesageError.innerHTML = 'Mola! Un nuevo gatito en Adalab!';
     }
   }
+
   kittenDataList.push(newKittenDataObject);
   renderKittenList(kittenDataList);
   console.log(kittenDataList);
   resetInputs();
+}
+//Limpiar los inputs
+function resetInputs() {
+  inputDesc.value = '';
+  inputPhoto.value = '';
+  inputName.value = '';
+  inputRace.value = '';
+}
+//Cancelar la búsqueda de un gatito
+function cancelNewKitten(event) {
+  event.preventDefault();
+  newFormElement.classList.add('collapsed');
+  inputDesc.value = '';
+  inputPhoto.value = '';
+  inputName.value = '';
 }
 
 //Filtrar por descripción
@@ -70,62 +131,11 @@ function filterKitten(event) {
   renderKittenList(dataFiltered);
 }
 
-//Crear listado de gatitos
-function renderKitten(kittenData) {
-  const kitten = `<li class="card">
-  <article>
-    <img
-      class="card_img"
-      src=${kittenData.url}
-      alt="gatito"
-    />
-    <h3 class="card_title">${kittenData.name}</h3>
-    <h3 class="card_race">${kittenData.race}</h3>
-    <p class="card_description">
-    ${kittenData.desc}
-    </p>
-  </article>
-  </li>`;
-  return kitten;
-}
-
-function renderKittenList(kittenDataList) {
-  listElement.innerHTML = '';
-  for (const kittenItem of kittenDataList) {
-    listElement.innerHTML += renderKitten(kittenItem);
-  }
-}
-
-renderKittenList(kittenDataList);
-
-//Limpiar los inputs
-function resetInputs() {
-  inputDesc.value = '';
-  inputPhoto.value = '';
-  inputName.value = '';
-  inputRace.value = '';
-}
-
-//Mostrar/ocultar el formulario
-function showNewCatForm() {
-  newFormElement.classList.remove('collapsed');
-}
-function hideNewCatForm() {
-  newFormElement.classList.add('collapsed');
-}
-
-function handleClickNewCatForm(event) {
-  event.preventDefault();
-  if (newFormElement.classList.contains('collapsed')) {
-    showNewCatForm();
-  } else {
-    hideNewCatForm();
-  }
-}
-
 //Mostrar el litado de gatitos en ell HTML
 renderKittenList(kittenDataList);
 
-buttonAdd.addEventListener('click', addNewKitten);
+//Eventos
 linkNewFormElememt.addEventListener('click', handleClickNewCatForm);
 searchButton.addEventListener('click', filterKitten);
+buttonAdd.addEventListener('click', addNewKitten);
+buttonCancelForm.addEventListener('click', cancelNewKitten);
